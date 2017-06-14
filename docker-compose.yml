@@ -5,14 +5,16 @@ services:
     image: wodby/mariadb:10.1-2.1.0
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: lw_docker_db
+      MYSQL_DATABASE: drupal
       MYSQL_USER: drupal
       MYSQL_PASSWORD: drupal
     volumes:
 #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
 #      - /path/to/mariadb/data/on/host:/var/lib/mysql # I want to manage volumes manually.
       - ./docker-runtime/mariadb:/var/lib/mysql
-
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.101
   php:
 # 1. Images with vanilla Drupal – wodby/drupal:[DRUPAL_VERSION]-[PHP_VERSION]-[STABILITY_TAG].
 #    image: wodby/drupal:8-7.1-2.1.2
@@ -32,7 +34,7 @@ services:
       DB_HOST: mariadb
       DB_USER: drupal
       DB_PASSWORD: drupal
-      DB_NAME: lw_docker_db
+      DB_NAME: drupal
       DB_DRIVER: mysql
       PHP_XDEBUG: 1
       PHP_XDEBUG_DEFAULT_ENABLE: 1
@@ -147,3 +149,10 @@ volumes:
 ## Docker-sync for macOS users
 #  docker-sync:
 #    external: true
+
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.25.0.0/24
