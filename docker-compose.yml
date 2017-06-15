@@ -12,9 +12,6 @@ services:
 #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
 #      - /path/to/mariadb/data/on/host:/var/lib/mysql # I want to manage volumes manually.
       - ./docker-runtime/mariadb:/var/lib/mysql
-    networks:
-      mynet:
-        ipv4_address: 172.25.0.101
   php:
 # 1. Images with vanilla Drupal – wodby/drupal:[DRUPAL_VERSION]-[PHP_VERSION]-[STABILITY_TAG].
 #    image: wodby/drupal:8-7.1-2.1.2
@@ -149,10 +146,3 @@ volumes:
 ## Docker-sync for macOS users
 #  docker-sync:
 #    external: true
-
-networks:
-  mynet:
-    driver: bridge
-    ipam:
-      config:
-      - subnet: 172.25.0.0/24
