@@ -14,6 +14,9 @@ services:
 #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
 #      - /path/to/mariadb/data/on/host:/var/lib/mysql # I want to manage volumes manually.
       - ./docker-runtime/mariadb:/var/lib/mysql
+
+
+
   php:
 # 1. Images with vanilla Drupal – wodby/drupal:[DRUPAL_VERSION]-[PHP_VERSION]-[STABILITY_TAG].
 #    image: wodby/drupal:8-7.1-2.1.2
@@ -44,6 +47,8 @@ services:
 #     - docker-sync:/var/www/html # Docker-sync for macOS users
       - ./:/var/www/html
 
+
+
   nginx:
 # wodby/drupal-nginx:[DRUPAL_VERSION]-[NGINX_VERSION]-[STABILITY_TAG].
     image: wodby/drupal-nginx:8-1.10-2.1.0
@@ -64,7 +69,11 @@ services:
     labels:
       - 'traefik.backend=nginx'
       - 'traefik.port=80'
-      - 'traefik.frontend.rule=Host:drupal.docker.localhost'
+      - 'traefik.frontend.rule=Host:lw.drupal.docker.localhost'
+#      For multiple hosts (Drupal MultiSiting)
+#      - 'traefik.frontend.rule=HostRegexp:mysite.drupal.docker.localhost, {subdomain:[A-Za-z0-9-]+}.mysite.drupal.docker.localhost'
+
+
 
 #  varnish:
 #    image: wodby/drupal-varnish:4.1-2.1.0
@@ -82,6 +91,8 @@ services:
 #  redis:
 #    image: wodby/redis:3.2-2.1.0
 
+
+
   pma:
     image: phpmyadmin/phpmyadmin
     environment:
@@ -94,6 +105,8 @@ services:
       - 'traefik.backend=pma'
       - 'traefik.port=80'
       - 'traefik.frontend.rule=Host:pma.drupal.docker.localhost'
+
+
 
   solr:
 # wodby/drupal-solr:[DRUPAL_VERSION]-[SOLR_VERSION]-[STABILITY_TAG].
@@ -111,12 +124,16 @@ services:
       - 'traefik.port=8983'
       - 'traefik.frontend.rule=Host:solr.drupal.docker.localhost'
 
+
+
   mailhog:
     image: mailhog/mailhog
     labels:
       - 'traefik.backend=mailhog'
       - 'traefik.port=8025'
       - 'traefik.frontend.rule=Host:mailhog.drupal.docker.localhost'
+
+
 
 #  node:
 #    image: node:7-alpine
@@ -134,6 +151,8 @@ services:
 #  memcached:
 #    image: wodby/memcached:1.4-2.0.0
 
+
+
   traefik:
     image: traefik
     command: -c /dev/null --web --docker --logLevel=INFO
@@ -142,6 +161,10 @@ services:
 #      - '8080:8080' # Dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+
+
+
 
 volumes:
   codebase:
