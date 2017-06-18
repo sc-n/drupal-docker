@@ -4,7 +4,7 @@ services:
   mariadb:
     image: wodby/mariadb:10.1-2.1.0
     ports:
-      - "8003:3306"
+      - "8003:3306" # defines for PhpStorm connection to database.
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -13,7 +13,7 @@ services:
     volumes:
 #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
 #      - /path/to/mariadb/data/on/host:/var/lib/mysql # I want to manage volumes manually.
-      - "./docker-runtime/mariadb:/var/lib/mysql"
+      - ./docker-runtime/mariadb:/var/lib/mysql
 
 
 
@@ -126,7 +126,7 @@ services:
       - "traefik.port=8983"
       - "traefik.frontend.rule=Host:${PROJECT_NAME}.solr.docker.localhost"
     volumes:
-      - "./docker-runtime/solr:/opt/solr/server/solr/"
+      - ./docker-runtime/solr:/opt/solr/server/solr/
 
 
   mailhog:
@@ -164,6 +164,10 @@ services:
 #      - '8080:8080' # Dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.backend=traefik"
+      - "traefik.port=8080"
+      - "traefik.frontend.rule=Host:${PROJECT_NAME}.traefik.docker.localhost"
 
 
 
