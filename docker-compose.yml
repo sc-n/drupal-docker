@@ -71,7 +71,7 @@ services:
       - "traefik.backend=nginx"
       - "traefik.port=80"
       # For multiple hosts (Drupal MultiSiting)
-      - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.drupal.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.drupal.docker.localhost"
+      - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.web.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.web.docker.localhost"
 
 
 
