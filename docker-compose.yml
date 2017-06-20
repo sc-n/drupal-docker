@@ -3,8 +3,6 @@ version: "2"
 services:
   mariadb:
     image: wodby/mariadb:10.1-2.1.0
-    ports:
-      - "8003:3306" # defines for PhpStorm connection to database.
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -14,6 +12,9 @@ services:
 #      - ./mariadb-init:/docker-entrypoint-initdb.d # Place init .sql file(s) here.
 #      - /path/to/mariadb/data/on/host:/var/lib/mysql # I want to manage volumes manually.
       - ./docker-runtime/mariadb:/var/lib/mysql
+    networks:
+      simple:
+        ipv4_address: "${NETWORK_PREFIX}.2"
 
 
 
@@ -48,6 +49,9 @@ services:
 #      - codebase:/var/www/html
 #     - docker-sync:/var/www/html # Docker-sync for macOS users
       - ./web:/var/www/html
+    networks:
+      simple:
+        ipv4_address: "${NETWORK_PREFIX}.3"
 
 
 
@@ -72,6 +76,9 @@ services:
       - "traefik.port=80"
       # For multiple hosts (Drupal MultiSiting)
       - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.web.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.web.docker.localhost"
+    networks:
+      simple:
+        ipv4_address: "${NETWORK_PREFIX}.4"
 
 
 
@@ -87,46 +94,59 @@ services:
 #      - "traefik.backend=varnish"
 #      - "traefik.port=6081"
 #      - "traefik.frontend.rule=Host:${PROJECT_NAME}.varnish.docker.localhost"
+#    networks:
+#      simple:
+#        ipv4_address: "${NETWORK_PREFIX}.5"
 
 
 
 #  redis:
 #    image: wodby/redis:3.2-2.1.0
+#    networks:
+#      simple:
+#        ipv4_address: "${NETWORK_PREFIX}.6"
 
 
 
-  pma:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: ${DB_USER}
-      PMA_PASSWORD: ${DB_PASSWORD}
-      PHP_UPLOAD_MAX_FILESIZE: 1G
-      PHP_MAX_INPUT_VARS: 1G
-    labels:
-      - "traefik.backend=pma"
-      - "traefik.port=80"
-      - "traefik.frontend.rule=Host:${PROJECT_NAME}.pma.docker.localhost"
+#  pma:
+#    image: phpmyadmin/phpmyadmin
+#    environment:
+#      PMA_HOST: mariadb
+#      PMA_USER: ${DB_USER}
+#      PMA_PASSWORD: ${DB_PASSWORD}
+#      PHP_UPLOAD_MAX_FILESIZE: 1G
+#      PHP_MAX_INPUT_VARS: 1G
+#    labels:
+#      - "traefik.backend=pma"
+#      - "traefik.port=80"
+#      - "traefik.frontend.rule=Host:${PROJECT_NAME}.pma.docker.localhost"
+#    networks:
+#      simple:
+#        ipv4_address: "${NETWORK_PREFIX}.7"
 
 
 
-  solr: # admin configs in SearchApi: http://solr:8000/solr/{core_name}
-# wodby/drupal-solr:[DRUPAL_VERSION]-[SOLR_VERSION]-[STABILITY_TAG].
-    image: wodby/drupal-solr:8-6.4-2.0.0
-#    image: wodby/drupal-solr:8-6.3-2.0.0
-#    image: wodby/drupal-solr:8-5.5-2.0.0
-#    image: wodby/drupal-solr:7-6.4-2.0.0
-#    image: wodby/drupal-solr:7-6.3-2.0.0
-    image: wodby/drupal-solr:7-5.5-2.0.0
-#    image: solr:5.5-alpine
-    environment:
-      SOLR_HEAP: 1024m
-    labels:
-      - "traefik.backend=solr"
-      - "traefik.port=8983"
-      - "traefik.frontend.rule=Host:${PROJECT_NAME}.solr.docker.localhost"
-    volumes:
-      - ./docker-runtime/solr:/opt/solr/server/solr/
+#  solr: # admin configs in SearchApi: http://solr:8000/solr/{core_name}
+## wodby/drupal-solr:[DRUPAL_VERSION]-[SOLR_VERSION]-[STABILITY_TAG].
+#    image: wodby/drupal-solr:8-6.4-2.0.0
+##    image: wodby/drupal-solr:8-6.3-2.0.0
+##    image: wodby/drupal-solr:8-5.5-2.0.0
+##    image: wodby/drupal-solr:7-6.4-2.0.0
+##    image: wodby/drupal-solr:7-6.3-2.0.0
+#    image: wodby/drupal-solr:7-5.5-2.0.0
+##    image: solr:5.5-alpine
+#    environment:
+#      SOLR_HEAP: 1024m
+#    labels:
+#      - "traefik.backend=solr"
+#      - "traefik.port=8983"
+#      - "traefik.frontend.rule=Host:${PROJECT_NAME}.solr.docker.localhost"
+#    volumes:
+#      - ./docker-runtime/solr:/opt/solr/server/solr/
+#    networks:
+#      simple:
+#        ipv4_address: "${NETWORK_PREFIX}.8"
+
 
 
   mailhog:
@@ -135,6 +155,9 @@ services:
       - "traefik.backend=mailhog"
       - "traefik.port=8025"
       - "traefik.frontend.rule=Host:${PROJECT_NAME}.mailhog.docker.localhost"
+    networks:
+      simple:
+        ipv4_address: "${NETWORK_PREFIX}.9"
 
 
 
@@ -150,9 +173,17 @@ services:
 #    volumes:
 #      - ./path/to/your/single-page-app:/app
 #    command: sh -c 'npm install && npm run start'
+#    networks:
+#      simple:
+#        ipv4_address: "${NETWORK_PREFIX}.10"
+
+
 
 #  memcached:
 #    image: wodby/memcached:1.4-2.0.0
+#    networks:
+#      simple:
+#        ipv4_address: "${NETWORK_PREFIX}.11"
 
 
 
@@ -168,6 +199,9 @@ services:
       - "traefik.backend=traefik"
       - "traefik.port=8080"
       - "traefik.frontend.rule=Host:${PROJECT_NAME}.traefik.docker.localhost"
+    networks:
+      simple:
+        ipv4_address: "${NETWORK_PREFIX}.12"
 
 
 
@@ -178,3 +212,15 @@ volumes:
 ## Docker-sync for macOS users
 #  docker-sync:
 #    external: true
+
+
+
+
+
+networks:
+  simple:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: "${NETWORK_PREFIX}.0/16"
+         gateway: "${NETWORK_PREFIX}.1"
