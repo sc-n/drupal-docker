@@ -4,7 +4,7 @@ services:
   mariadb:
     image: wodby/mariadb:10.1-2.1.0
     ports:
-      - "8003:3306" # defines for PhpStorm connection to database.
+      - "${DB_DOCKER_PORT}:3306" # defines for PhpStorm connection to database.
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -95,38 +95,39 @@ services:
 
 
 
-  pma:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mariadb
-      PMA_USER: ${DB_USER}
-      PMA_PASSWORD: ${DB_PASSWORD}
-      PHP_UPLOAD_MAX_FILESIZE: 1G
-      PHP_MAX_INPUT_VARS: 1G
-    labels:
-      - "traefik.backend=pma"
-      - "traefik.port=80"
-      - "traefik.frontend.rule=Host:${PROJECT_NAME}.pma.docker.localhost"
+#  pma:
+#    image: phpmyadmin/phpmyadmin
+#    environment:
+#      PMA_HOST: mariadb
+#      PMA_USER: ${DB_USER}
+#      PMA_PASSWORD: ${DB_PASSWORD}
+#      PHP_UPLOAD_MAX_FILESIZE: 1G
+#      PHP_MAX_INPUT_VARS: 1G
+#    labels:
+#      - "traefik.backend=pma"
+#      - "traefik.port=80"
+#      - "traefik.frontend.rule=Host:${PROJECT_NAME}.pma.docker.localhost"
 
 
 
-  solr: # admin configs in SearchApi: http://solr:8000/solr/{core_name}
-# wodby/drupal-solr:[DRUPAL_VERSION]-[SOLR_VERSION]-[STABILITY_TAG].
-    image: wodby/drupal-solr:8-6.4-2.0.0
-#    image: wodby/drupal-solr:8-6.3-2.0.0
-#    image: wodby/drupal-solr:8-5.5-2.0.0
-#    image: wodby/drupal-solr:7-6.4-2.0.0
-#    image: wodby/drupal-solr:7-6.3-2.0.0
-    image: wodby/drupal-solr:7-5.5-2.0.0
-#    image: solr:5.5-alpine
-    environment:
-      SOLR_HEAP: 1024m
-    labels:
-      - "traefik.backend=solr"
-      - "traefik.port=8983"
-      - "traefik.frontend.rule=Host:${PROJECT_NAME}.solr.docker.localhost"
-    volumes:
-      - ./docker-runtime/solr:/opt/solr/server/solr/
+#  solr: # admin configs in SearchApi: http://solr:8000/solr/{core_name}
+## wodby/drupal-solr:[DRUPAL_VERSION]-[SOLR_VERSION]-[STABILITY_TAG].
+#    image: wodby/drupal-solr:8-6.4-2.0.0
+##    image: wodby/drupal-solr:8-6.3-2.0.0
+##    image: wodby/drupal-solr:8-5.5-2.0.0
+##    image: wodby/drupal-solr:7-6.4-2.0.0
+##    image: wodby/drupal-solr:7-6.3-2.0.0
+#    image: wodby/drupal-solr:7-5.5-2.0.0
+##    image: solr:5.5-alpine
+#    environment:
+#      SOLR_HEAP: 1024m
+#    labels:
+#      - "traefik.backend=solr"
+#      - "traefik.port=8983"
+#      - "traefik.frontend.rule=Host:${PROJECT_NAME}.solr.docker.localhost"
+#    volumes:
+#      - ./docker-runtime/solr:/opt/solr/server/solr/
+
 
 
   mailhog:
