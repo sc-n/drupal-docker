@@ -97,6 +97,8 @@ services:
 #      - "traefik.port=80"
 #      - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.web.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.web.docker.localhost"
 
+
+
 #  varnish:
 #    image: wodby/drupal-varnish:4.1-2.1.2
 #    depends_on:
