@@ -86,15 +86,16 @@ services:
 #    environment:
 #      APACHE_LOG_LEVEL: debug
 #      APACHE_BACKEND_HOST: php
-#      APACHE_SERVER_ROOT: /var/www/html/web
+#      APACHE_SERVER_ROOT: /var/www/html
 #    volumes:
-#      - codebase:/var/www/html
-# Options for macOS users (http://docs.docker4drupal.org/en/latest/macos)
-#      - docker-sync:/var/www/html # Docker-sync
-#      - codebase:/var/www/html:cached # User-guided caching
+#      - ./web:/var/www/html
+## Options for macOS users (http://docs.docker4drupal.org/en/latest/macos)
+##      - docker-sync:/var/www/html # Docker-sync
+##      - codebase:/var/www/html:cached # User-guided caching
 #    labels:
 #      - "traefik.backend=${SERVER_CONTAINER_NAME}"
 #      - "traefik.port=80"
+#      # For multiple hosts (Drupal MultiSiting)
 #      - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.web.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.web.docker.localhost"
 
 
@@ -225,18 +226,18 @@ services:
 
 
 
-#   traefik:
-#     image: traefik
-#     command: -c /dev/null --web --docker --logLevel=INFO
-#     ports:
-#       - "8000:80"
-# #      - '8080:8080' # Dashboard
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#     labels:
-#       - "traefik.backend=traefik"
-#       - "traefik.port=8080"
-#       - "traefik.frontend.rule=Host:${PROJECT_NAME}.traefik.docker.localhost"
+#  traefik:
+#   image: traefik
+#   command: -c /dev/null --web --docker --logLevel=INFO
+#   ports:
+#     - "8000:80"
+#  #      - '8080:8080' # Dashboard
+#   volumes:
+#     - /var/run/docker.sock:/var/run/docker.sock
+#   labels:
+#     - "traefik.backend=traefik"
+#     - "traefik.port=8080"
+#     - "traefik.frontend.rule=Host:${PROJECT_NAME}.traefik.docker.localhost"
 
 
 
