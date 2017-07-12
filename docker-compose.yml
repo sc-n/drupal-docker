@@ -140,7 +140,6 @@ services:
 #      PHP_UPLOAD_MAX_FILESIZE: 1G
 #      PHP_MAX_INPUT_VARS: 1G
 #    labels:
-##      - "traefik.backend=pma"
 #      - "traefik.backend=${PROJECT_FOLDER_NAME}_pma_1"
 #      - "traefik.port=80"
 #      - "traefik.frontend.rule=Host:${PROJECT_NAME}.pma.docker.localhost"
