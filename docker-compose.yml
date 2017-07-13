@@ -72,7 +72,7 @@ services:
 #      - docker-sync:/var/www/html # Docker-sync
 #      - codebase:/var/www/html:cached # User-guided caching
     labels:
-      - "traefik.backend=${PROJECT_FOLDER_NAME}_nginx_1"
+      - "traefik.backend=${PROJECT_SUFFIX}_nginx_1"
       - "traefik.port=80"
       # For multiple hosts (Drupal MultiSiting)
       - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.web.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.web.docker.localhost"
@@ -93,7 +93,7 @@ services:
 ##      - docker-sync:/var/www/html # Docker-sync
 ##      - codebase:/var/www/html:cached # User-guided caching
 #    labels:
-#      - "traefik.backend=${${PROJECT_FOLDER_NAME}_apache_1}"
+#      - "traefik.backend=${PROJECT_SUFFIX}_apache_1"
 #      - "traefik.port=80"
 #      # For multiple hosts (Drupal MultiSiting)
 #      - "traefik.frontend.rule=HostRegexp:${PROJECT_NAME}.web.docker.localhost, {subdomain:[A-Za-z0-9-]+}.${PROJECT_NAME}.web.docker.localhost"
@@ -109,7 +109,7 @@ services:
 #      VARNISH_BACKEND_HOST: nginx
 #      VARNISH_BACKEND_PORT: 80
 #    labels:
-#      - "traefik.backend=${PROJECT_FOLDER_NAME}_varnish_1"
+#      - "traefik.backend=${PROJECT_SUFFIX}_varnish_1"
 #      - "traefik.port=6081"
 #      - "traefik.frontend.rule=Host:${PROJECT_NAME}.varnish.docker.localhost"
 
@@ -125,7 +125,7 @@ services:
 #    environment:
 #      ADMINER_SALT: adminer-salt
 #    labels:
-#      - 'traefik.backend=${PROJECT_FOLDER_NAME}_adminer_1'
+#      - 'traefik.backend=${PROJECT_SUFFIX}_adminer_1'
 #      - 'traefik.port=9000'
 #      - 'traefik.frontend.rule=Host:${PROJECT_NAME}.adminer.docker.localhost'
 
@@ -140,7 +140,7 @@ services:
 #      PHP_UPLOAD_MAX_FILESIZE: 1G
 #      PHP_MAX_INPUT_VARS: 1G
 #    labels:
-#      - "traefik.backend=${PROJECT_FOLDER_NAME}_pma_1"
+#      - "traefik.backend=${PROJECT_SUFFIX}_pma_1"
 #      - "traefik.port=80"
 #      - "traefik.frontend.rule=Host:${PROJECT_NAME}.pma.docker.localhost"
 
@@ -158,7 +158,7 @@ services:
 #    environment:
 #      SOLR_HEAP: 1024m
 #    labels:
-#      - "traefik.backend=${PROJECT_FOLDER_NAME}_solr_1"
+#      - "traefik.backend=${PROJECT_SUFFIX}_solr_1"
 #      - "traefik.port=8983"
 #      - "traefik.frontend.rule=Host:${PROJECT_NAME}.solr.docker.localhost"
 #    volumes:
@@ -169,7 +169,7 @@ services:
   mailhog:
     image: mailhog/mailhog
     labels:
-      - "traefik.backend=${PROJECT_FOLDER_NAME}_mailhog_1"
+      - "traefik.backend=${PROJECT_SUFFIX}_mailhog_1"
       - "traefik.port=8025"
       - "traefik.frontend.rule=Host:${PROJECT_NAME}.mailhog.docker.localhost"
 
@@ -180,11 +180,11 @@ services:
 #    environment:
 #       NODE_SERVICE_KEY: node-service-key
 #    labels:
-#      - 'traefik.backend=${PROJECT_FOLDER_NAME}_nodejs_1'
+#      - 'traefik.backend=${PROJECT_SUFFIX}_nodejs_1'
 #      - 'traefik.port=8080'
 #      - 'traefik.frontend.rule=Host:${PROJECT_NAME}.nodejs.docker.localhost'
 #    volumes:
-#      - ./path/to/your/single-page-app:/app
+#      - ./docker-runtime/nodejs:/app
 #    command: sh -c 'npm install && npm run start'
 
 
@@ -193,13 +193,13 @@ services:
 #    image: node:alpine
 #    working_dir: /app
 #    labels:
-#      - "traefik.backend=${PROJECT_FOLDER_NAME}_node_1"
+#      - "traefik.backend=${PROJECT_SUFFIX}_node_1"
 #      - "traefik.port=3000"
 #      - "traefik.frontend.rule=Host:${PROJECT_NAME}.front.docker.localhost"
 #    expose:
 #      - "3000"
 #    volumes:
-#      - ./path/to/your/single-page-app:/app
+#      - ./docker-runtime/node:/app
 #    command: sh -c 'npm install && npm run start'
 
 
@@ -235,7 +235,7 @@ services:
 #   volumes:
 #     - /var/run/docker.sock:/var/run/docker.sock
 #   labels:
-#     - "traefik.backend=${PROJECT_FOLDER_NAME}_traefik_1"
+#     - "traefik.backend=${PROJECT_SUFFIX}_traefik_1"
 #     - "traefik.port=8080"
 #     - "traefik.frontend.rule=Host:${PROJECT_NAME}.traefik.docker.localhost"
 
