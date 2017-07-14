@@ -19,18 +19,18 @@ services:
 
   php:
 # 1. Images with vanilla Drupal – wodby/drupal:[DRUPAL_VERSION]-[PHP_VERSION]-[STABILITY_TAG].
-#    image: wodby/drupal:8-7.1-2.4.3
-#    image: wodby/drupal:8-7.0-2.4.3
-#    image: wodby/drupal:7-7.1-2.4.3
-#    image: wodby/drupal:7-7.0-2.4.3
-#    image: wodby/drupal:7-5.6-2.4.3
-#    image: wodby/drupal:6-5.6-2.4.3
-#    image: wodby/drupal:6-5.3-2.4.3
+#    image: wodby/drupal:8-7.1-2.4.4
+#    image: wodby/drupal:8-7.0-2.4.4
+#    image: wodby/drupal:7-7.1-2.4.4
+#    image: wodby/drupal:7-7.0-2.4.4
+#    image: wodby/drupal:7-5.6-2.4.4
+#    image: wodby/drupal:6-5.6-2.4.4
+#    image: wodby/drupal:6-5.3-2.4.4
 # 2. Images without Drupal – wodby/drupal-php:[PHP_VERSION]-[STABILITY_TAG].
-#    image: wodby/drupal-php:7.1-2.4.2
-#    image: wodby/drupal-php:7.0-2.4.2
-    image: wodby/drupal-php:5.6-2.4.2
-#    image: wodby/drupal-php:5.3-2.4.2
+#    image: wodby/drupal-php:7.1-2.4.3
+#    image: wodby/drupal-php:7.0-2.4.3
+    image: wodby/drupal-php:5.6-2.4.3
+#    image: wodby/drupal-php:5.3-2.4.3
     environment:
       PHP_SENDMAIL_PATH: /usr/sbin/sendmail -t -i -S mailhog:1025
       DB_HOST: mariadb
@@ -45,20 +45,21 @@ services:
       # PHP_XDEBUG_REMOTE_CONNECT_BACK: 0         # This is needed to respect remote.host setting bellow
       # PHP_XDEBUG_REMOTE_HOST: "10.254.254.254"  # You will also need to 'sudo ifconfig lo0 alias 10.254.254.254'
     volumes:
-#      - codebase:/var/www/html
-#     - docker-sync:/var/www/html # Docker-sync for macOS users
       - ./web:/var/www/html
+# Options for macOS users (http://docs.docker4drupal.org/en/latest/macos)
+#      - ./web:/var/www/html:cached # User-guided caching
+#      - docker-sync:/var/www/html # Docker-sync
 
 
 
   nginx:
 # wodby/drupal-nginx:[DRUPAL_VERSION]-[NGINX_VERSION]-[STABILITY_TAG].
-    image: wodby/drupal-nginx:8-1.13-2.4.0
-#    image: wodby/drupal-nginx:7-1.13-2.4.0
-#    image: wodby/drupal-nginx:6-1.13-2.4.0
-#    image: wodby/drupal-nginx:8-1.12-2.4.0
-#    image: wodby/drupal-nginx:7-1.12-2.4.0
-#    image: wodby/drupal-nginx:6-1.12-2.4.0
+    image: wodby/drupal-nginx:8-1.13-2.4.2
+#    image: wodby/drupal-nginx:7-1.13-2.4.2
+#    image: wodby/drupal-nginx:6-1.13-2.4.2
+#    image: wodby/drupal-nginx:8-1.12-2.4.2
+#    image: wodby/drupal-nginx:7-1.12-2.4.2
+#    image: wodby/drupal-nginx:6-1.12-2.4.2
     depends_on:
       - php
     environment:
@@ -69,8 +70,8 @@ services:
     volumes:
       - ./web:/var/www/html
 # Options for macOS users (http://docs.docker4drupal.org/en/latest/macos)
+#      - ./web:/var/www/html:cached # User-guided caching
 #      - docker-sync:/var/www/html # Docker-sync
-#      - codebase:/var/www/html:cached # User-guided caching
     labels:
       - "traefik.backend=${PROJECT_SUFFIX}_nginx_1"
       - "traefik.port=80"
@@ -80,7 +81,7 @@ services:
 
 
 #  apache:
-#    image: wodby/drupal-apache:2.4-1.0.0
+#    image: wodby/drupal-apache:2.4-1.0.2
 #    depends_on:
 #      - php
 #    environment:
@@ -90,8 +91,8 @@ services:
 #    volumes:
 #      - ./web:/var/www/html
 ## Options for macOS users (http://docs.docker4drupal.org/en/latest/macos)
+##      - ./web:/var/www/html:cached # User-guided caching
 ##      - docker-sync:/var/www/html # Docker-sync
-##      - codebase:/var/www/html:cached # User-guided caching
 #    labels:
 #      - "traefik.backend=${PROJECT_SUFFIX}_apache_1"
 #      - "traefik.port=80"
@@ -116,7 +117,7 @@ services:
 
 
 #  redis:
-#    image: wodby/redis:3.2-2.1.1
+#    image: wodby/redis:3.2-2.1.2
 
 
 
@@ -148,13 +149,12 @@ services:
 
 #  solr: # admin configs in SearchApi: http://solr:8000/solr/{core_name}
 ## wodby/drupal-solr:[DRUPAL_VERSION]-[SOLR_VERSION]-[STABILITY_TAG].
-##    image: wodby/drupal-solr:8-6.4-2.1.0
-##    image: wodby/drupal-solr:8-6.3-2.1.0
-##    image: wodby/drupal-solr:8-5.5-2.1.0
-##    image: wodby/drupal-solr:7-6.4-2.0.0
-##    image: wodby/drupal-solr:7-6.3-2.0.0
-#    image: wodby/drupal-solr:7-5.5-2.0.0
-##    image: solr:5.5-alpine
+##    image: wodby/drupal-solr:8-6.6-2.2.0
+##    image: wodby/drupal-solr:8-6.5-2.2.0
+##    image: wodby/drupal-solr:8-6.4-2.2.0
+##    image: wodby/drupal-solr:8-6.3-2.2.0
+##    image: wodby/drupal-solr:8-5.5-2.2.0
+#    image: wodby/drupal-solr:7-5.4-2.2.0
 #    environment:
 #      SOLR_HEAP: 1024m
 #    labels:
