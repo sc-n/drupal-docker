@@ -127,10 +127,10 @@ services:
 #    environment:
 #      ADMINER_SALT: adminer-salt
 #    labels:
-#      - 'traefik.backend=${PROJECT_SUFFIX}_adminer_1'
-#      - 'traefik.port=9000' # for wodby/adminer
-##      - 'traefik.port=8888' # for hardware/adminer
-#      - 'traefik.frontend.rule=Host:${PROJECT_NAME}.adminer.docker.localhost'
+#      - "traefik.backend=${PROJECT_SUFFIX}_adminer_1"
+#      - "traefik.port=9000" # for wodby/adminer
+##      - "traefik.port=8888" # for hardware/adminer
+#      - "traefik.frontend.rule=Host:${PROJECT_NAME}.adminer.docker.localhost"
 
 
 
@@ -182,9 +182,9 @@ services:
 #    environment:
 #       NODE_SERVICE_KEY: node-service-key
 #    labels:
-#      - 'traefik.backend=${PROJECT_SUFFIX}_nodejs_1'
-#      - 'traefik.port=8080'
-#      - 'traefik.frontend.rule=Host:${PROJECT_NAME}.nodejs.docker.localhost'
+#      - "traefik.backend=${PROJECT_SUFFIX}_nodejs_1"
+#      - "traefik.port=8080"
+#      - "traefik.frontend.rule=Host:${PROJECT_NAME}.nodejs.docker.localhost"
 #    volumes:
 #      - ./docker-runtime/nodejs:/app
 #    command: sh -c 'npm install && npm run start'
